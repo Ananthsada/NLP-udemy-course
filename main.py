@@ -2,6 +2,12 @@ import nltk
 import re
 from nltk.tokenize import word_tokenize
 from nltk.tokenize import sent_tokenize
+from nltk.stem import PorterStemmer
+from nltk.stem import LancasterStemmer
+from nltk.stem import SnowballStemmer
+
+
+# tokenization
 
 nltk.download('punkt')
 
@@ -16,3 +22,14 @@ print(sentence.split())
 print(sentence.split('. '))
 
 print(re.split('[. ]', sentence))
+
+
+# Stemming test
+Porter = PorterStemmer()
+print(Porter.stem('Funny'))
+
+Lancaster = LancasterStemmer()
+print(Lancaster.stem('Funny'))
+
+Snow = SnowballStemmer('english')
+print(Snow.stem('Funny'))
