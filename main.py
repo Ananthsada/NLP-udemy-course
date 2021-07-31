@@ -8,6 +8,10 @@ def getHashtags(text):
     retText = re.findall('#(\w+)', text)
     return retText
 
+def removeHastags(text):
+    retText = re.sub('#(\w+)', '', text)
+    return retText
+
 def removeUserName(text):
     retText = re.sub('@[a-zA-z]+[a-zA-z0-9-_]', '', text)
     return retText
@@ -17,7 +21,7 @@ def removeHyperLink(text):
     return retText
 
 def removeNonAscii(text):
-    retText = "".join(i for i in text if ord(i) < 128)
+    retText = ''.join(i for i in text if ord(i) < 128)
     return retText
 
 def removeStopWords(text):
@@ -34,6 +38,10 @@ def removeEmailAddress(text):
     retText = re.sub('[\w\.-]+@[\w]+.[\w]+', '', text)
     return retText
 
+def removePunctuation(text):
+    retText = re.findall('\w+', text)
+    return ' '.join(each for each in retText)
+
 df = pd.read_csv('dataset/Coachella-2015-2-DFE.csv', encoding='latin1')
 df['hastag'] = df.text.apply(func = getHashtags)
 df['new_tweet'] = df.text.apply(func = removeUserName)
@@ -41,4 +49,9 @@ df['new_tweet'] = df.new_tweet.apply(func = removeHyperLink)
 df['new_tweet'] = df.new_tweet.apply(func = removeNonAscii)
 df['new_tweet'] = df.new_tweet.apply(func = convetLowerCase)
 df['new_tweet'] = df.new_tweet.apply(func = removeEmailAddress)
-print(df.head())
+df['new_tweet'] = df.new_tweet.apply(func = removeStopWords)
+df['new_tweet'] = df.new_tweet.apply(func = removeHastags)
+df['new_tweet'] = df.new_tweet.apply(func = removePunctuation)
+for i in range(0, 5, 1):
+    print(df['text'][i])
+    print(df['new_tweet'][i])
